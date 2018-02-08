@@ -6,7 +6,7 @@
  * Time: 10:54
  */
 
-namespace DynamicForm;
+namespace DynamicForm\Fields;
 
 
 /**
@@ -35,6 +35,10 @@ interface Field extends \JsonSerializable
      *@var string
      */
     const TYPE_RANGE= "range";
+    /**
+     * @var string
+     */
+    const TYPE_SLIDE= "slide";
 
     /**
      * @return string

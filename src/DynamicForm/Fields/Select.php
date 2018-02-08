@@ -9,7 +9,6 @@
 namespace DynamicForm\Fields;
 
 
-use DynamicForm\Field;
 use DynamicForm\Fields\Items\SelectItem;
 
 class Select implements Field
@@ -24,17 +23,13 @@ class Select implements Field
      */
     protected $name;
     /**
-     * @var string
+     * @var SelectItem[]
      */
-    protected $values;
+    protected $values = [];
     /**
      * @var string
      */
     protected $label;
-    /**
-     * @var string
-     */
-    protected $subLabel;
 
     /**
      * @return string
@@ -99,30 +94,12 @@ class Select implements Field
     }
 
     /**
-     * @return string
-     */
-    public function getSubLabel(): string
-    {
-        return $this->subLabel;
-    }
-
-    /**
-     * @param string $subLabel
-     * @return Select
-     */
-    public function setSubLabel(string $subLabel): Select
-    {
-        $this->subLabel = $subLabel;
-        return $this;
-    }
-
-    /**
      * @param SelectItem $field
      * @return Select
      */
     public function add(SelectItem $field){
 
-        $this->fields[] = $field;
+        $this->values[] = $field;
         return $this;
     }
 
@@ -142,7 +119,7 @@ class Select implements Field
      */
     public function prepend(SelectItem $field){
 
-        array_unshift($this->fields, $field);
+        array_unshift($this->values, $field);
         return $this;
     }
 

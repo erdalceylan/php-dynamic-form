@@ -7,6 +7,7 @@
  */
 
 namespace DynamicForm;
+use DynamicForm\Fields\Field;
 
 /**
  * Class Form
@@ -18,10 +19,6 @@ class Form implements \JsonSerializable
      * @var string $title
      */
     protected $title;
-    /**
-     * @var string $subTitle
-     */
-    protected $subTitle;
     /**
      * @var string $name
      */
@@ -46,24 +43,6 @@ class Form implements \JsonSerializable
     public function setTitle(string $title): Form
     {
         $this->title = $title;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSubTitle(): string
-    {
-        return $this->subTitle;
-    }
-
-    /**
-     * @param string $subTitle
-     * @return Form
-     */
-    public function setSubTitle(string $subTitle): Form
-    {
-        $this->subTitle = $subTitle;
         return $this;
     }
 
@@ -107,9 +86,12 @@ class Form implements \JsonSerializable
      * @param Field $field
      * @return $this
      */
-    public function add(Field $field){
+    public function add($field){
 
-        $this->fields[] = $field;
+        if($field instanceof Field){
+
+            $this->fields[] = $field;
+        }
         return $this;
     }
 
@@ -117,7 +99,7 @@ class Form implements \JsonSerializable
      * @param Field $field
      * @return Form
      */
-    public function append(Field $field){
+    public function append($field){
 
         $this->add($field);
         return $this;
@@ -127,9 +109,12 @@ class Form implements \JsonSerializable
      * @param Field $field
      * @return Form
      */
-    public function prepend(Field $field){
+    public function prepend($field){
 
-        array_unshift($this->fields, $field);
+        if($field instanceof Field){
+
+            array_unshift($this->fields, $field);
+        }
         return $this;
     }
 

@@ -8,8 +8,6 @@
 
 namespace DynamicForm\Fields;
 
-
-use DynamicForm\Field;
 use DynamicForm\Fields\Items\RangeItem;
 
 class Range implements Field
@@ -37,16 +35,6 @@ class Range implements Field
     public function getType(): string
     {
         return $this->type;
-    }
-
-    /**
-     * @param string $type
-     * @return Range
-     */
-    public function setType(string $type): Range
-    {
-        $this->type = $type;
-        return $this;
     }
 
     /**

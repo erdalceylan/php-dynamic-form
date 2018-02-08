@@ -10,21 +10,21 @@ namespace DynamicForm\Fields;
 
 
 /**
- * Class Text
+ * Class Slide
  * @package DynamicForm\Fields
  */
-class Text implements Field
+class Slide implements Field
 {
     /**
      * @var string
      */
-    protected $type = Field::TYPE_TEXT;
+    protected $type = Field::TYPE_SLIDE;
     /**
      * @var string
      */
     protected $name;
     /**
-     * @var string
+     * @var int
      */
     protected $value;
     /**
@@ -50,29 +50,29 @@ class Text implements Field
 
     /**
      * @param string $name
-     * @return Text
+     * @return Slide
      */
-    public function setName(string $name): Text
+    public function setName(string $name): Slide
     {
         $this->name = $name;
         return $this;
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getValue(): string
+    public function getValue(): int
     {
         return $this->value;
     }
 
     /**
-     * @param string $value
-     * @return Text
+     * @param int $value
+     * @return Slide
      */
-    public function setValue(string $value): Text
+    public function setValue($value): Slide
     {
-        $this->value = $value;
+        $this->value = (int)$value;
         return $this;
     }
 

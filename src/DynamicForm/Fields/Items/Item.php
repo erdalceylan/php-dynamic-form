@@ -15,15 +15,5 @@ namespace DynamicForm\Fields\Items;
  */
 interface Item extends \JsonSerializable
 {
-    /**
-     * @return string
-     */
-    public function getText(): string ;
-
-    /**
-     * @param string $text
-     * @return mixed
-     */
-    public function setText(string $text);
 
 }

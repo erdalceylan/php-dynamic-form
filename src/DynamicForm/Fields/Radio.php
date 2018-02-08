@@ -8,8 +8,6 @@
 
 namespace DynamicForm\Fields;
 
-
-use DynamicForm\Field;
 use DynamicForm\Fields\Items\RadioItem;
 
 class Radio implements Field
@@ -24,17 +22,13 @@ class Radio implements Field
      */
     protected $name;
     /**
-     * @var string
+     * @var RadioItem[]
      */
-    protected $values;
+    protected $values = [];
     /**
      * @var string
      */
     protected $label;
-    /**
-     * @var string
-     */
-    protected $subLabel;
 
     /**
      * @return string
@@ -99,30 +93,12 @@ class Radio implements Field
     }
 
     /**
-     * @return string
-     */
-    public function getSubLabel(): string
-    {
-        return $this->subLabel;
-    }
-
-    /**
-     * @param string $subLabel
-     * @return Radio
-     */
-    public function setSubLabel(string $subLabel): Radio
-    {
-        $this->subLabel = $subLabel;
-        return $this;
-    }
-
-    /**
      * @param RadioItem $field
      * @return Radio
      */
     public function add(RadioItem $field){
 
-        $this->fields[] = $field;
+        $this->values[] = $field;
         return $this;
     }
 
@@ -142,7 +118,7 @@ class Radio implements Field
      */
     public function prepend(RadioItem $field){
 
-        array_unshift($this->fields, $field);
+        array_unshift($this->values, $field);
         return $this;
     }
 

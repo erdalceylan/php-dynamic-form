@@ -12,6 +12,15 @@ namespace DynamicForm\Fields\Items;
 class RangeItem implements Item
 {
 
+    function __construct($min='', $max='')
+    {
+        if(is_numeric($min) && is_numeric($max)){
+
+            $this->setMin($min)
+                ->setMax($max);
+        }
+    }
+
     /**
      * @var int
      */
@@ -20,25 +29,6 @@ class RangeItem implements Item
      * @var int
      */
     protected $max;
-
-    /**
-     * @deprecated
-     * @return string
-     */
-    public function getText(): string
-    {
-        return "";
-    }
-
-    /**
-     * @deprecated
-     * @param string $text
-     * @return RangeItem
-     */
-    public function setText(string $text)
-    {
-        return $this;
-    }
 
     /**
      * @return int

@@ -9,7 +9,6 @@
 namespace DynamicForm\Fields;
 
 
-use DynamicForm\Field;
 use DynamicForm\Fields\Items\CheckBoxItem;
 
 class CheckBox implements Field
@@ -26,15 +25,11 @@ class CheckBox implements Field
     /**
      * @var CheckBoxItem[]
      */
-    protected $values;
+    protected $values = [];
     /**
      * @var string
      */
     protected $label;
-    /**
-     * @var string
-     */
-    protected $subLabel;
 
     /**
      * @return string
@@ -99,30 +94,12 @@ class CheckBox implements Field
     }
 
     /**
-     * @return string
-     */
-    public function getSubLabel(): string
-    {
-        return $this->subLabel;
-    }
-
-    /**
-     * @param string $subLabel
-     * @return CheckBox
-     */
-    public function setSubLabel(string $subLabel): CheckBox
-    {
-        $this->subLabel = $subLabel;
-        return $this;
-    }
-
-    /**
      * @param CheckBoxItem $field
      * @return CheckBox
      */
     public function add(CheckBoxItem $field){
 
-        $this->fields[] = $field;
+        $this->values[] = $field;
         return $this;
     }
 
@@ -142,7 +119,7 @@ class CheckBox implements Field
      */
     public function prepend(CheckBoxItem $field){
 
-        array_unshift($this->fields, $field);
+        array_unshift($this->values, $field);
         return $this;
     }
 
