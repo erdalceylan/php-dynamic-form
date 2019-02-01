@@ -6,12 +6,12 @@
  * Time: 12:19
  */
 
-namespace DynamicForm\Fields\Items;
+namespace DynamicForm\Fields;
 
 
 /**
  * Interface Item
- * @package DynamicForm\Fields\Items
+ * @package DynamicForm\Fields
  */
 interface Item extends \JsonSerializable
 {

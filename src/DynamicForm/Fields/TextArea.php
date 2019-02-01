@@ -11,10 +11,10 @@ namespace DynamicForm\Fields;
 use DynamicForm\Field;
 
 /**
- * Class Text
+ * Class TextArea
  * @package DynamicForm\Fields
  */
-class Text extends Field
+class TextArea extends Field
 {
     /**
      * @var string

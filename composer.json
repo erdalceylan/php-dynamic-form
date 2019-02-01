@@ -2,8 +2,8 @@
   "name": "erdalceylan/php-dynamic-form",
   "description": "Dynamic Form builder",
   "type": "library",
-  "keywords": ["php", "form", "builder", "json", "dynamic"],
-  "license": "GPL-3.0+",
+  "keywords": ["php", "form", "builder", "json", "dynamic", "angular", "ajax"],
+  "license": "MIT",
   "authors": [
     {
       "name": "Erdal CEYLAN",
@@ -12,12 +12,14 @@
     }
   ],
   "require": {
-    "php": ">=7.0"
+    "php": ">=7.0",
+    "ext-json" :"*",
+    "ext-mbstring" :"*"
   },
   "autoload": {
     "psr-4": {
       "DynamicForm\\": "src/DynamicForm"
     }
   },
-  "version": "1.0.0"
+  "version": "2.0.0"
 }

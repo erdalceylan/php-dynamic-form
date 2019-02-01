@@ -5,7 +5,7 @@
  * Date: 08.02.2018
  * Time: 14:11
  */
-header('Content-Type: application/json; charset=UTF-8');
+//header('Content-Type: application/json; charset=UTF-8');
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -17,167 +17,143 @@ spl_autoload_register(function ($class){
     require_once ''.$filename;
 });
 /*------------config for test-------------*/
+require_once 'TestForm.php';
 
 
-use \DynamicForm\Form,
-    \DynamicForm\Fields\Field,
-    \DynamicForm\Fields\CheckBox,
-    \DynamicForm\Fields\Radio,
-    \DynamicForm\Fields\Select,
-    \DynamicForm\Fields\Range,
-    \DynamicForm\Fields\Text,
-    \DynamicForm\Fields\Slide,
-    \DynamicForm\Fields\Items\CheckBoxItem,
-    \DynamicForm\Fields\Items\RadioItem,
-    \DynamicForm\Fields\Items\SelectItem,
-    \DynamicForm\Fields\Items\RangeItem;
 
-$form = new Form();
-$form->setName("form1")
-->setTitle("My EXAMPLE FORM");
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
+    header('Content-Type: application/json; charset=UTF-8');
 
-## CheckBox fields
-$checkBoxField = (new CheckBox())
-    ->setName("checkBox1")
-    ->setLabel("any check box");
+    if(isset($_GET['form'])){
+        $form = new TestForm();
+        echo json_encode($form);
+        exit;
+    }elseif (isset($_GET['valid'])){
+        $form = new TestForm();
+        var_dump($form->isValid($_POST));
+        exit;
+    }elseif (isset($_GET['messages'])){
+        $form = new TestForm();
+        echo json_encode($form->getErrorMessages($_POST));
+        exit;
+    }
+}
 
-$checkBoxValue1 = (new CheckBoxItem())
-    ->setText("any checkBox item label 1")
-    ->setValue(1);
-$checkBoxValue2 = (new CheckBoxItem())
-    ->setText("any checkBox item label 2")
-    ->setValue(2);
 
-$checkBoxField
-    ->add($checkBoxValue1)
-    ->prepend($checkBoxValue2);
+?>
+<html lang="tr">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/css/bootstrap-slider.min.css" />
 
-##Radio fields
-$radioField = (new Radio())
-    ->setName("radio1")
-    ->setLabel("any radio");
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/bootstrap-slider.min.js"></script>
+</head>
+<body>
+<button class="btn getir">Getir</button>
+<button class="btn test-et">Test Et</button>
+<button class="btn mesaj-al">Mesaj Al</button>
 
-$radioValue1 = (new RadioItem())
-    ->setText("any radio item label 1")
-    ->setValue(1);
-$radioValue2 = (new RadioItem())
-    ->setText("any radio item label 2")
-    ->setValue(2);
+<div id="form-wrapper" class="w-25"></div>
+<script>
+    $(".getir").click(function(){
+        var wrapper = $("#form-wrapper");
+        wrapper.html("");
+        $.post("examples.php?form=1",function (res) {
+            var wrapper = $("#form-wrapper");
+            wrapper.append("<h1>"+res.title+"</h1>");
+            var form = $("<form class=''></form>").appendTo(wrapper);
+            res.fields.forEach(function (item, index) {
 
-$radioField
-    ->add($radioValue1)
-    ->prepend($radioValue2);
+                if(item.type =='Text'){
+                    var  row = $("<div class='form-group'></div>").appendTo(form);
+                    row.append("<label for='"+item.name+index+"'>"+item.label+"</label>");
+                    row.append("<input class='form-control' type='text' name='"+item.name+"' id='"+item.name+index+"' value='"+item.value+"' />");
+                }
+                if(item.type =='TextArea'){
+                    var  row = $("<div class='form-group'></div>").appendTo(form);
+                    row.append("<label for='"+item.name+index+"'>"+item.label+"</label>");
+                    row.append("<textarea class='form-control' name='"+item.name+"' id='"+item.name+index+"'>"+item.value+"</textarea>");
+                }
+                if(item.type =='CheckBox'){
+                    form.append("<span>"+item.label+"</span>");
+                    item.values.forEach(function (subItem, index) {
+                        var  row = $("<div class='form-check'></div>").appendTo(form);
+                        row.append("<input class='form-check-input' type='checkbox' name='"+item.name+"[]' id='"+item.name+index+"' value='"+subItem.value+"' />");
+                        row.append("<label class='form-check-label' for='"+item.name+index+"'>"+subItem.text+"</label>");
+                    });
+                }
+                if(item.type =='Radio'){
+                    form.append("<span>"+item.label+"</span>");
+                    item.values.forEach(function (subItem, index) {
+                        var  row = $("<div class='form-check'></div>").appendTo(form);
+                        row.append("<input class='form-check-input' type='radio' name='"+item.name+"' id='"+item.name+index+"' value='"+subItem.value+"' />");
+                        row.append("<label class='form-check-label' for='"+item.name+index+"'>"+subItem.text+"</label>");
+                    });
+                }
+                if(item.type =='Select'){
+                    form.append("<span>"+item.label+"</span>");
+                    var  row = $("<div class='form-group'></div>").appendTo(form);
+                    var  select = $("<select name='"+item.name+"'></select>").appendTo(row);
+                    item.values.forEach(function (subItem, index) {
+                        select.append("<option value='"+subItem.value+"'>"+subItem.text+"</option>")
+                    });
+                }
+                if(item.type =='Slide'){
+                    form.append("<span>"+item.label+"</span>");
+                    var  row = $("<div></div>").appendTo(form);
+                    var  input = $("<input data-type='slide' id='"+item.name+"' />").appendTo(row);
+                    $("#"+item.name).slider({
+                        tooltip: 'always',
+                        min: item.min,
+                        max: item.max,
+                        step: item.step,
+                        value: item.value
+                    });
+                }
+                if(item.type =='Range'){
+                    form.append("<span>"+item.label+"</span>");
+                    var  row = $("<div></div>").appendTo(form);
+                    var  input = $("<input data-type='range' id='"+item.name+"' />").appendTo(row);
+                    $("#"+item.name).slider({
+                        min: item.min,
+                        max: item.max,
+                        step: item.step,
+                        value: [item.values.min, item.values.max]
+                    });
+                }
 
-##Select fields
-$selectField = (new Select())
-    ->setName("select1")
-    ->setLabel("any select");
+            });
+        });
+    });
+    $(".test-et").click(function () {
+        $.post("examples.php?valid=1",getFormData(),function (res) {
 
-$selectValue1 = (new SelectItem())
-    ->setText("any select item label 1")
-    ->setValue(1);
-$selectValue2 = (new SelectItem())
-    ->setText("any select item label 2")
-    ->setValue(2);
+        });
+    });
+    $(".mesaj-al").click(function () {
+        $.post("examples.php?messages=1",getFormData(),function (res) {
 
-$selectField
-    ->add($selectValue1)
-    ->prepend($selectValue2);
+        });
+    });
 
-##Range fields
-$rangeField = (new Range())
-    ->setName("range1")
-    ->setLabel("any range")
-    ->setValues(new RangeItem(1, 101));
+    var getFormData = function () {
+        var data = $("form").serializeArray();
+        $("[data-type=range]").each(function(){
 
-##Text fields
-$textField = (new Text())
-    ->setName("text1")
-    ->setLabel("your name")
-    ->setValue("default name");
+            data.push({name: $(this).attr("id")+"[]", value: $(this).val().split(",")[0]});
+            data.push({name: $(this).attr("id")+"[]", value: $(this).val().split(",")[1]});
+        });
 
-##Slide fields
-$slideField = (new Slide())
-    ->setName("slide1")
-    ->setLabel("slide label")
-    ->setValue(100);
+        $("[data-type=slide]").each(function(){
+            data.push({name: $(this).attr("id"), value: $(this).val()});
+        });
 
-$form->add($checkBoxField)
-    ->append($radioField)
-    ->add($selectField)
-    ->prepend($rangeField)
-    ->prepend($textField)
-    ->add($slideField);
-
-echo json_encode($form);
-//
-//$fieldTypes = [
-//    Field::TYPE_CHECKBOX,
-//    Field::TYPE_RADIO,
-//    Field::TYPE_SELECT,
-//    Field::TYPE_RANGE,
-//    Field::TYPE_TEXT];
-//
-//for($i=0; $i < 7; $i++){
-//
-//    $type = $fieldTypes[array_rand($fieldTypes)];
-//
-//    $field;
-//
-//    switch ($type){
-//        case Field::TYPE_CHECKBOX :
-//            $field = new CheckBox();
-//            $field->setLabel("check-box-label".$i)
-//                ->setName("check-box-name".$i);
-//            break;
-//        case Field::TYPE_RADIO :
-//            $field = new Radio();
-//            $field->setLabel("radio-label".$i)
-//                ->setName("radio-name".$i);
-//            break;
-//        case Field::TYPE_SELECT :
-//            $field = new Select();
-//            $field->setLabel("select-label".$i)
-//                ->setName("select-name".$i);
-//            break;
-//        case Field::TYPE_RANGE :
-//            $field = new Range();
-//            $field->setName("range_".$i)
-//                ->setLabel("label_range_".$i)
-//                ->setValues(new RangeItem($i * 2, $i * 5));
-//            break;
-//        case Field::TYPE_TEXT :
-//            $field = new Text();
-//            $field->setLabel("text_label_".$i)
-//                ->setName("text_".$i)
-//                ->setValue("");
-//            break;
-//    }
-//
-//    $fieldTypes = [Field::TYPE_CHECKBOX, Field::TYPE_RADIO, Field::TYPE_SELECT];
-//    if(in_array($type, $fieldTypes)){
-//
-//        $itemCount = rand(2,3);
-//
-//        for ($j=0; $j < $itemCount; $j++){
-//
-//            if($type == Field::TYPE_SELECT){
-//                $item = new SelectItem();
-//            }else if($type == Field::TYPE_RADIO){
-//                $item = new RadioItem();
-//            }else if($type == Field::TYPE_CHECKBOX){
-//                $item = new CheckBoxItem();
-//            }
-//
-//            $item->setValue($j)
-//                ->setText("item-text--".$j);
-//            $field->add($item);
-//
-//        }
-//    }
-//
-//    $form->add($field);
-//}
-//
-//
-//echo json_encode($form);
+        return data;
+    }
+</script>
+</body>
+</html>

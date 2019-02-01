@@ -8,52 +8,32 @@
 
 namespace DynamicForm\Fields;
 
+use DynamicForm\Field;
 use DynamicForm\Fields\Items\RangeItem;
 
-class Range implements Field
+/**
+ * Class Range
+ * @package DynamicForm\Fields
+ */
+class Range extends Field
 {
-    /**
-     * @var string
-     */
-    protected $type = Field::TYPE_RANGE;
-    /**
-     * @var string
-     */
-    protected $name;
+
     /**
      * @var RangeItem
      */
     protected $values;
     /**
-     * @var string
+     * @var int
      */
-    protected $label;
-
+    protected $min;
     /**
-     * @return string
+     * @var int
      */
-    public function getType(): string
-    {
-        return $this->type;
-    }
-
+    protected $max;
     /**
-     * @return string
+     * @var int
      */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
-     * @return Range
-     */
-    public function setName(string $name): Range
-    {
-        $this->name = $name;
-        return $this;
-    }
+    protected $step = 1;
 
     /**
      * @return RangeItem
@@ -65,30 +45,87 @@ class Range implements Field
 
     /**
      * @param RangeItem $values
-     * @return Range
+     * @return static
      */
-    public function setValues(RangeItem $values): Range
+    public function setValues(RangeItem $values): self
     {
         $this->values = $values;
         return $this;
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getLabel(): string
+    public function getMin(): int
     {
-        return $this->label;
+        return $this->min;
     }
 
     /**
-     * @param string $label
-     * @return Range
+     * @param int $min
+     * @return static
      */
-    public function setLabel(string $label): Range
+    public function setMin(int $min): self
     {
-        $this->label = $label;
+        $this->min = $min;
         return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMax(): int
+    {
+        return $this->max;
+    }
+
+    /**
+     * @param int $max
+     * @return static
+     */
+    public function setMax($max): self
+    {
+        $this->max = (int)$max;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStep(): int
+    {
+        return $this->step;
+    }
+
+    /**
+     * @param int $step
+     * @return static
+     */
+    public function setStep(int $step): self
+    {
+        $this->step = $step;
+        return $this;
+    }
+
+    /**
+     * @param $value mixed
+     * @return bool
+     */
+    public function contain($value): bool
+    {
+
+       if($this->getValues() instanceof RangeItem){
+
+           if(is_array($value) && count($value) === 2
+               && array_key_exists(0, $value)
+               && array_key_exists(1, $value)){
+
+               return $this->getValues()->contain($value[0])
+                   && $this->getValues()->contain($value[1]);
+           }
+       }
+
+        return false;
     }
 
     /**

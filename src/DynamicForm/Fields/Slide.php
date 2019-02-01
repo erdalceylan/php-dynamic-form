@@ -8,55 +8,30 @@
 
 namespace DynamicForm\Fields;
 
+use DynamicForm\Field;
 
 /**
  * Class Slide
  * @package DynamicForm\Fields
  */
-class Slide implements Field
+class Slide extends Field
 {
-    /**
-     * @var string
-     */
-    protected $type = Field::TYPE_SLIDE;
-    /**
-     * @var string
-     */
-    protected $name;
     /**
      * @var int
      */
     protected $value;
     /**
-     * @var string
+     * @var int
      */
-    protected $label;
-
+    protected $min;
     /**
-     * @return string
+     * @var int
      */
-    public function getType(): string
-    {
-        return $this->type;
-    }
-
+    protected $max;
     /**
-     * @return string
+     * @var int
      */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
-     * @return Slide
-     */
-    public function setName(string $name): Slide
-    {
-        $this->name = $name;
-        return $this;
-    }
+    protected $step = 1;
 
     /**
      * @return int
@@ -68,30 +43,88 @@ class Slide implements Field
 
     /**
      * @param int $value
-     * @return Slide
+     * @return static
      */
-    public function setValue($value): Slide
+    public function setValue($value): self
     {
         $this->value = (int)$value;
         return $this;
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getLabel(): string
+    public function getMin(): int
     {
-        return $this->label;
+        return $this->min;
     }
 
     /**
-     * @param string $label
-     * @return Text
+     * @param int $min
+     * @return static
      */
-    public function setLabel(string $label): Text
+    public function setMin($min): self
     {
-        $this->label = $label;
+        $this->min = (int)$min;
         return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMax(): int
+    {
+        return $this->max;
+    }
+
+    /**
+     * @param int $max
+     * @return static
+     */
+    public function setMax($max): self
+    {
+        $this->max = (int)$max;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStep(): int
+    {
+        return $this->step;
+    }
+
+    /**
+     * @param int $step
+     * @return static
+     */
+    public function setStep(int $step): self
+    {
+        $this->step = $step;
+        return $this;
+    }
+
+    /**
+     * @param $value
+     * @return bool
+     */
+    public function contain($value): bool
+    {
+
+        if(!is_string($value) && !is_int($value)){
+            return false;
+        }
+
+        if(!preg_match("/^[0-9]+$/", $value)){
+            return false;
+        }
+
+        if($this->getMin() <= $value && $this->getMax() >= $value){
+            return true;
+        }
+
+        return false;
     }
 
     /**

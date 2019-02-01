@@ -8,10 +8,22 @@
 
 namespace DynamicForm\Fields\Items;
 
+use DynamicForm\Checker;
+use DynamicForm\Field;
+use DynamicForm\Fields\Item;
 
-class RangeItem implements Item
+/**
+ * Class RangeItem
+ * @package DynamicForm\Fields\Items
+ */
+class RangeItem implements Item, Checker
 {
 
+    /**
+     * RangeItem constructor.
+     * @param $min
+     * @param $max
+     */
     function __construct($min='', $max='')
     {
         if(is_numeric($min) && is_numeric($max)){
@@ -40,9 +52,9 @@ class RangeItem implements Item
 
     /**
      * @param int $min
-     * @return RangeItem
+     * @return static
      */
-    public function setMin($min): RangeItem
+    public function setMin($min): self
     {
         $this->min = (int)$min;
         return $this;
@@ -58,12 +70,34 @@ class RangeItem implements Item
 
     /**
      * @param int $max
-     * @return RangeItem
+     * @return static
      */
-    public function setMax($max): RangeItem
+    public function setMax($max): self
     {
         $this->max = (int)$max;
         return $this;
+    }
+
+    /**
+     * @param $value
+     * @param null|Field $field
+     * @return bool
+     */
+    public function contain($value, $field = null): bool
+    {
+        if(!is_string($value) && !is_int($value)){
+            return false;
+        }
+
+        if(!preg_match("/^[0-9]+$/", $value)){
+            return false;
+        }
+
+        if($value >= $this->getMin() && $value <= $this->getMax()){
+            return true;
+        }
+
+        return false;
     }
 
     /**

@@ -9,53 +9,19 @@
 namespace DynamicForm\Fields;
 
 
+use DynamicForm\Field;
 use DynamicForm\Fields\Items\CheckBoxItem;
 
-class CheckBox implements Field
+/**
+ * Class CheckBox
+ * @package DynamicForm\Fields
+ */
+class CheckBox extends Field
 {
-
-    /**
-     * @var string
-     */
-    protected $type = Field::TYPE_CHECKBOX;
-    /**
-     * @var string
-     */
-    protected $name;
     /**
      * @var CheckBoxItem[]
      */
     protected $values = [];
-    /**
-     * @var string
-     */
-    protected $label;
-
-    /**
-     * @return string
-     */
-    public function getType(): string
-    {
-        return $this->type;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
-     * @return CheckBox
-     */
-    public function setName(string $name): CheckBox
-    {
-        $this->name = $name;
-        return $this;
-    }
 
     /**
      * @return CheckBoxItem[]
@@ -67,37 +33,20 @@ class CheckBox implements Field
 
     /**
      * @param CheckBoxItem[] $values
-     * @return CheckBox
+     * @return static
      */
-    public function setValues(Array $values): CheckBox
+    public function setValues(Array $values): self
     {
         $this->values = $values;
         return $this;
     }
 
     /**
-     * @return string
-     */
-    public function getLabel(): string
-    {
-        return $this->label;
-    }
-
-    /**
-     * @param string $label
-     * @return CheckBox
-     */
-    public function setLabel(string $label): CheckBox
-    {
-        $this->label = $label;
-        return $this;
-    }
-
-    /**
      * @param CheckBoxItem $field
-     * @return CheckBox
+     * @return static
      */
-    public function add(CheckBoxItem $field){
+    public function add(CheckBoxItem $field): self
+    {
 
         $this->values[] = $field;
         return $this;
@@ -105,9 +54,10 @@ class CheckBox implements Field
 
     /**
      * @param CheckBoxItem $field
-     * @return CheckBox
+     * @return static
      */
-    public function append(CheckBoxItem $field){
+    public function append(CheckBoxItem $field): self
+    {
 
         $this->add($field);
         return $this;
@@ -115,12 +65,48 @@ class CheckBox implements Field
 
     /**
      * @param CheckBoxItem $field
-     * @return CheckBox
+     * @return static
      */
-    public function prepend(CheckBoxItem $field){
+    public function prepend(CheckBoxItem $field): self
+    {
 
         array_unshift($this->values, $field);
         return $this;
+    }
+
+    /**
+     * @param $value mixed
+     * @return bool
+     */
+    public function contain($value): bool
+    {
+        if(count($this->getValues()) === 0){
+            return false;
+        }
+
+        if(is_array($value)){
+            $lastIndex = count($this->getValues()) -1;
+            foreach ($value as $v){
+                foreach ($this->getValues() as $key => $item){
+                    if($item->getValue() == $v){
+                        continue 2;
+                    }
+                    if($key === $lastIndex){
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }else{
+            foreach ($this->getValues() as $item){
+                if($item->getValue() == $value){
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     /**

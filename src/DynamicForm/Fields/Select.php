@@ -8,54 +8,23 @@
 
 namespace DynamicForm\Fields;
 
-
+use DynamicForm\Field;
 use DynamicForm\Fields\Items\SelectItem;
 
-class Select implements Field
+/**
+ * Class Select
+ * @package DynamicForm\Fields
+ */
+class Select extends Field
 {
-
-    /**
-     * @var string
-     */
-    protected $type = Field::TYPE_SELECT;
-    /**
-     * @var string
-     */
-    protected $name;
     /**
      * @var SelectItem[]
      */
     protected $values = [];
     /**
-     * @var string
+     * @var bool
      */
-    protected $label;
-
-    /**
-     * @return string
-     */
-    public function getType(): string
-    {
-        return $this->type;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
-     * @return Select
-     */
-    public function setName(string $name): Select
-    {
-        $this->name = $name;
-        return $this;
-    }
+    protected $multiple = false;
 
     /**
      * @return SelectItem[]
@@ -67,47 +36,30 @@ class Select implements Field
 
     /**
      * @param SelectItem[] $values
-     * @return Select
+     * @return static
      */
-    public function setValues(Array $values): Select
+    public function setValues(Array $values): self
     {
         $this->values = $values;
         return $this;
     }
 
     /**
-     * @return string
-     */
-    public function getLabel(): string
-    {
-        return $this->label;
-    }
-
-    /**
-     * @param string $label
-     * @return Select
-     */
-    public function setLabel(string $label): Select
-    {
-        $this->label = $label;
-        return $this;
-    }
-
-    /**
      * @param SelectItem $field
-     * @return Select
+     * @return static
      */
-    public function add(SelectItem $field){
-
+    public function add(SelectItem $field): self
+    {
         $this->values[] = $field;
         return $this;
     }
 
     /**
      * @param SelectItem $field
-     * @return Select
+     * @return static
      */
-    public function append(SelectItem $field){
+    public function append(SelectItem $field): self
+    {
 
         $this->add($field);
         return $this;
@@ -115,12 +67,70 @@ class Select implements Field
 
     /**
      * @param SelectItem $field
-     * @return Select
+     * @return static
      */
-    public function prepend(SelectItem $field){
+    public function prepend(SelectItem $field): self
+    {
 
         array_unshift($this->values, $field);
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isMultiple(): bool
+    {
+        return $this->multiple;
+    }
+
+    /**
+     * @param bool $multiple
+     * @return static
+     */
+    public function setMultiple(bool $multiple): self
+    {
+        $this->multiple = $multiple;
+        return $this;
+    }
+
+    /**
+     * @param $value mixed
+     * @return bool
+     */
+    public function contain($value): bool
+    {
+        if(!$this->isMultiple() && is_array($value)){
+            return false;
+        }
+
+        if(count($this->getValues()) === 0){
+            return false;
+        }
+
+        if(is_array($value)){
+            $lastIndex = count($this->getValues()) -1;
+            foreach ($value as $v){
+                foreach ($this->getValues() as $key => $item){
+                    if($item->getValue() == $v){
+                        continue 2;
+                    }
+                    if($key === $lastIndex){
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }else{
+            foreach ($this->getValues() as $item){
+                if($item->getValue() == $value){
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     /**

@@ -8,7 +8,12 @@
 
 namespace DynamicForm\Fields\Items;
 
+use DynamicForm\Fields\Item;
 
+/**
+ * Class SelectItem
+ * @package DynamicForm\Fields\Items
+ */
 class SelectItem implements Item
 {
     /**
@@ -19,6 +24,10 @@ class SelectItem implements Item
      * @var mixed
      */
     protected $value;
+    /**
+     * @var bool
+     */
+    protected $selected = false;
 
     /**
      * @return string
@@ -30,9 +39,9 @@ class SelectItem implements Item
 
     /**
      * @param string $text
-     * @return SelectItem
+     * @return static
      */
-    public function setText(string $text): SelectItem
+    public function setText(string $text): self
     {
         $this->text = $text;
         return $this;
@@ -48,14 +57,31 @@ class SelectItem implements Item
 
     /**
      * @param mixed $value
-     * @return SelectItem
+     * @return static
      */
-    public function setValue($value) : SelectItem
+    public function setValue($value) : self
     {
         $this->value = $value;
         return $this;
     }
 
+    /**
+     * @return bool
+     */
+    public function isSelected(): bool
+    {
+        return $this->selected;
+    }
+
+    /**
+     * @param bool $selected
+     * @return static
+     */
+    public function setSelected(bool $selected): self
+    {
+        $this->selected = $selected;
+        return $this;
+    }
 
     /**
      * Specify data which should be serialized to JSON

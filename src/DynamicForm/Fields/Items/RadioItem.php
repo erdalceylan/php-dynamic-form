@@ -8,7 +8,12 @@
 
 namespace DynamicForm\Fields\Items;
 
+use DynamicForm\Fields\Item;
 
+/**
+ * Class RadioItem
+ * @package DynamicForm\Fields\Items
+ */
 class RadioItem implements Item
 {
     /**
@@ -19,6 +24,10 @@ class RadioItem implements Item
      * @var mixed
      */
     protected $value;
+    /**
+     * @var bool
+     */
+    protected $checked = false;
 
     /**
      * @return string
@@ -30,9 +39,9 @@ class RadioItem implements Item
 
     /**
      * @param string $text
-     * @return RadioItem
+     * @return static
      */
-    public function setText(string $text): RadioItem
+    public function setText(string $text): self
     {
         $this->text = $text;
         return $this;
@@ -48,11 +57,29 @@ class RadioItem implements Item
 
     /**
      * @param mixed $value
-     * @return RadioItem
+     * @return static
      */
-    public function setValue($value) : RadioItem
+    public function setValue($value) : self
     {
         $this->value = $value;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isChecked(): bool
+    {
+        return $this->checked;
+    }
+
+    /**
+     * @param bool $checked
+     * @return RadioItem
+     */
+    public function setChecked(bool $checked): RadioItem
+    {
+        $this->checked = $checked;
         return $this;
     }
 

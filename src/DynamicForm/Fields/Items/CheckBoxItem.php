@@ -8,7 +8,12 @@
 
 namespace DynamicForm\Fields\Items;
 
+use DynamicForm\Fields\Item;
 
+/**
+ * Class CheckBoxItem
+ * @package DynamicForm\Fields\Items
+ */
 class CheckBoxItem implements Item
 {
     /**
@@ -19,6 +24,10 @@ class CheckBoxItem implements Item
      * @var mixed
      */
     protected $value;
+    /**
+     * @var bool
+     */
+    protected $checked = false;
 
     /**
      * @return string
@@ -30,9 +39,9 @@ class CheckBoxItem implements Item
 
     /**
      * @param string $text
-     * @return CheckBoxItem
+     * @return self
      */
-    public function setText(string $text): CheckBoxItem
+    public function setText(string $text): self
     {
         $this->text = $text;
         return $this;
@@ -48,14 +57,31 @@ class CheckBoxItem implements Item
 
     /**
      * @param mixed $value
-     * @return CheckBoxItem
+     * @return self
      */
-    public function setValue($value) : CheckBoxItem
+    public function setValue($value) : self
     {
         $this->value = $value;
         return $this;
     }
 
+    /**
+     * @return bool
+     */
+    public function isChecked(): bool
+    {
+        return $this->checked;
+    }
+
+    /**
+     * @param bool $checked
+     * @return static
+     */
+    public function setChecked(bool $checked): self
+    {
+        $this->checked = $checked;
+        return $this;
+    }
 
     /**
      * Specify data which should be serialized to JSON

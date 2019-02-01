@@ -8,95 +8,45 @@
 
 namespace DynamicForm\Fields;
 
+use DynamicForm\Field;
 use DynamicForm\Fields\Items\RadioItem;
 
-class Radio implements Field
+/**
+ * Class Radio
+ * @package DynamicForm\Fields
+ */
+class Radio extends Field
 {
 
-    /**
-     * @var string
-     */
-    protected $type = Field::TYPE_RADIO;
-    /**
-     * @var string
-     */
-    protected $name;
     /**
      * @var RadioItem[]
      */
     protected $values = [];
-    /**
-     * @var string
-     */
-    protected $label;
 
     /**
-     * @return string
+     * @return RadioItem[]
      */
-    public function getType(): string
-    {
-        return $this->type;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
-     * @return Radio
-     */
-    public function setName(string $name): Radio
-    {
-        $this->name = $name;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getValues(): string
+    public function getValues()
     {
         return $this->values;
     }
 
     /**
-     * @param string $values
-     * @return Radio
+     * @param RadioItem[] $values
+     * @return self
      */
-    public function setValues(string $values): Radio
+    public function setValues(Array $values): self
     {
         $this->values = $values;
         return $this;
     }
 
     /**
-     * @return string
-     */
-    public function getLabel(): string
-    {
-        return $this->label;
-    }
-
-    /**
-     * @param string $label
-     * @return Radio
-     */
-    public function setLabel(string $label): Radio
-    {
-        $this->label = $label;
-        return $this;
-    }
-
-    /**
      * @param RadioItem $field
-     * @return Radio
+     * @return self
      */
-    public function add(RadioItem $field){
+    public function add(RadioItem $field): self
+    {
 
         $this->values[] = $field;
         return $this;
@@ -104,9 +54,10 @@ class Radio implements Field
 
     /**
      * @param RadioItem $field
-     * @return Radio
+     * @return self
      */
-    public function append(RadioItem $field){
+    public function append(RadioItem $field): self
+    {
 
         $this->add($field);
         return $this;
@@ -114,12 +65,29 @@ class Radio implements Field
 
     /**
      * @param RadioItem $field
-     * @return Radio
+     * @return self
      */
-    public function prepend(RadioItem $field){
+    public function prepend(RadioItem $field):self
+    {
 
         array_unshift($this->values, $field);
         return $this;
+    }
+
+    /**
+     * @param $value
+     * @return bool
+     */
+    public function contain($value): bool
+    {
+        foreach ($this->getValues() as $item){
+
+            if($item->getValue() == $value){
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
