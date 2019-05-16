@@ -32,6 +32,10 @@ abstract class Field implements \JsonSerializable, Validation, Checker
      */
     protected $label;
     /**
+     * @var bool
+    */
+    protected $disabled = false;
+    /**
      * @var Validator[]
      */
     protected $validators = [];
@@ -47,7 +51,7 @@ abstract class Field implements \JsonSerializable, Validation, Checker
     /**
      * @return string
      */
-    public function getType(): string
+    public function getType()
     {
         return $this->type;
     }
@@ -55,7 +59,7 @@ abstract class Field implements \JsonSerializable, Validation, Checker
     /**
      * @return string
      */
-    public function getName(): string
+    public function getName()
     {
         return $this->name;
     }
@@ -73,7 +77,7 @@ abstract class Field implements \JsonSerializable, Validation, Checker
     /**
      * @return string
      */
-    public function getLabel(): string
+    public function getLabel()
     {
         return $this->label;
     }
@@ -85,6 +89,24 @@ abstract class Field implements \JsonSerializable, Validation, Checker
     public function setLabel(string $label): self
     {
         $this->label = $label;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDisabled(): bool
+    {
+        return $this->disabled;
+    }
+
+    /**
+     * @param bool $disabled
+     * @return static
+     */
+    public function setDisabled(bool $disabled): self
+    {
+        $this->disabled = $disabled;
         return $this;
     }
 
