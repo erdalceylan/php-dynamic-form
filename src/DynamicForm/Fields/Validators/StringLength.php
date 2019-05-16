@@ -38,7 +38,7 @@ class StringLength extends Validator
     /**
      * @return int
      */
-    public function getMin(): int
+    public function getMin()
     {
         return $this->min;
     }
@@ -56,7 +56,7 @@ class StringLength extends Validator
     /**
      * @return int
      */
-    public function getMax(): int
+    public function getMax()
     {
         return $this->max;
     }

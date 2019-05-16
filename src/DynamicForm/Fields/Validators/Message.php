@@ -38,7 +38,7 @@ class Message implements \JsonSerializable
     /**
      * @return string
      */
-    public function getText(): string
+    public function getText()
     {
         return $this->text;
     }
@@ -56,7 +56,7 @@ class Message implements \JsonSerializable
     /**
      * @return string
      */
-    public function getKey(): string
+    public function getKey()
     {
         return $this->key;
     }

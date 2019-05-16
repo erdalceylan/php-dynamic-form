@@ -18,6 +18,14 @@ use DynamicForm\Fields\Item;
  */
 class RangeItem implements Item, Checker
 {
+    /**
+     * @var int
+     */
+    protected $min;
+    /**
+     * @var int
+     */
+    protected $max;
 
     /**
      * RangeItem constructor.
@@ -34,18 +42,9 @@ class RangeItem implements Item, Checker
     }
 
     /**
-     * @var int
-     */
-    protected $min;
-    /**
-     * @var int
-     */
-    protected $max;
-
-    /**
      * @return int
      */
-    public function getMin(): int
+    public function getMin()
     {
         return $this->min;
     }
@@ -63,7 +62,7 @@ class RangeItem implements Item, Checker
     /**
      * @return int
      */
-    public function getMax(): int
+    public function getMax()
     {
         return $this->max;
     }

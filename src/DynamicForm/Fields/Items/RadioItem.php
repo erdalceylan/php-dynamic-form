@@ -32,7 +32,7 @@ class RadioItem implements Item
     /**
      * @return string
      */
-    public function getText(): string
+    public function getText()
     {
         return $this->text;
     }
@@ -75,9 +75,9 @@ class RadioItem implements Item
 
     /**
      * @param bool $checked
-     * @return RadioItem
+     * @return static
      */
-    public function setChecked(bool $checked): RadioItem
+    public function setChecked(bool $checked): self
     {
         $this->checked = $checked;
         return $this;

@@ -32,7 +32,7 @@ class CheckBoxItem implements Item
     /**
      * @return string
      */
-    public function getText(): string
+    public function getText()
     {
         return $this->text;
     }

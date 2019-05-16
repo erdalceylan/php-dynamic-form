@@ -44,16 +44,16 @@ class Date extends Validator
     /**
      * @return string
      */
-    public function getMin(): string
+    public function getMin()
     {
         return $this->min;
     }
 
     /**
      * @param string $min
-     * @return Date
+     * @return static
      */
-    public function setMin(string $min): Date
+    public function setMin(string $min): self
     {
         $this->min = $min;
         return $this;
@@ -62,16 +62,16 @@ class Date extends Validator
     /**
      * @return string
      */
-    public function getMax(): string
+    public function getMax()
     {
         return $this->max;
     }
 
     /**
      * @param string $max
-     * @return Date
+     * @return static
      */
-    public function setMax(string $max): Date
+    public function setMax(string $max): self
     {
         $this->max = $max;
         return $this;

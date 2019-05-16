@@ -38,7 +38,7 @@ class Range extends Field
     /**
      * @return RangeItem
      */
-    public function getValues(): RangeItem
+    public function getValues()
     {
         return $this->values;
     }
@@ -56,7 +56,7 @@ class Range extends Field
     /**
      * @return int
      */
-    public function getMin(): int
+    public function getMin()
     {
         return $this->min;
     }
@@ -74,7 +74,7 @@ class Range extends Field
     /**
      * @return int
      */
-    public function getMax(): int
+    public function getMax()
     {
         return $this->max;
     }
@@ -92,7 +92,7 @@ class Range extends Field
     /**
      * @return int
      */
-    public function getStep(): int
+    public function getStep()
     {
         return $this->step;
     }

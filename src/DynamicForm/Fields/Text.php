@@ -24,7 +24,7 @@ class Text extends Field
     /**
      * @return string
      */
-    public function getValue(): string
+    public function getValue()
     {
         return $this->value;
     }

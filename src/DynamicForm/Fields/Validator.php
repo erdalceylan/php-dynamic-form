@@ -41,7 +41,7 @@ abstract class Validator implements \JsonSerializable
     /**
      * @return string
      */
-    public function getMessage(): string
+    public function getMessage()
     {
         return $this->message;
     }
