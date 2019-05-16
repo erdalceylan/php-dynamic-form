@@ -124,6 +124,39 @@ class Form implements \JsonSerializable, Validation
     }
 
     /**
+     * @param string $name
+     * @return Field
+     */
+    public function get(string $name)
+    {
+        foreach ($this->getFields() as $field){
+
+            if($field->getName() === $name) {
+                return $field;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @param string $name
+     * @return boolean
+     */
+    public function has(string $name): bool
+    {
+        return $this->get($name) instanceof Field;
+    }
+
+    /**
+     * @return int
+     */
+    public function count()
+    {
+        return count($this->getFields());
+    }
+
+    /**
      * @param $value array
      * @return bool
      */
