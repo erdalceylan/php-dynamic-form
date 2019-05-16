@@ -32,7 +32,7 @@ class Form implements \JsonSerializable, Validation
     /**
      * @return string
      */
-    public function getTitle(): string
+    public function getTitle()
     {
         return $this->title;
     }
@@ -50,7 +50,7 @@ class Form implements \JsonSerializable, Validation
     /**
      * @return string
      */
-    public function getName(): string
+    public function getName()
     {
         return $this->name;
     }
