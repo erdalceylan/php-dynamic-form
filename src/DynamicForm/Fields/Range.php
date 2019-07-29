@@ -114,14 +114,29 @@ class Range extends Field
     public function contain($value): bool
     {
 
-       if($this->getValues() instanceof RangeItem){
+       if(is_array($value) && count($value) === 2
+           && array_key_exists(0, $value)
+           && array_key_exists(1, $value)){
 
-           if(is_array($value) && count($value) === 2
-               && array_key_exists(0, $value)
-               && array_key_exists(1, $value)){
+           if(!is_string($value[0]) && !is_int($value[0])){
+               return false;
+           }
 
-               return $this->getValues()->contain($value[0])
-                   && $this->getValues()->contain($value[1]);
+           if(!is_string($value[1]) && !is_int($value[1])){
+               return false;
+           }
+
+           if(!preg_match("/^[0-9]+$/", $value[0])){
+               return false;
+           }
+
+           if(!preg_match("/^[0-9]+$/", $value[1])){
+               return false;
+           }
+
+           if($this->getMin() <= $value[0] && $this->getMax() >= $value[0]
+           && $this->getMin() <= $value[1] && $this->getMax() >= $value[1]){
+               return true;
            }
        }
 
